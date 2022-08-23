@@ -4,6 +4,10 @@ $page = "managefaq";
 $title = "Manage FAQs";
 include_once "include/header.php";
 include_once "include/sidebar.php";
+
+include "config/database.php";
+
+$data = new Databases;
 ?>
 
 <main id="main" class="main">
@@ -37,6 +41,7 @@ include_once "include/sidebar.php";
                                     <thead>
                                         <tr>
 
+                                            <th scope="col">ID</th>
                                             <th scope="col">Title</th>
                                             <th scope="col">Description</th>
                                             <th scope="col">Date</th>
@@ -45,25 +50,31 @@ include_once "include/sidebar.php";
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <?php
+$post_data = $data->viewData("allfaqs", "", "", "");
+foreach ($post_data as $post) {
+    ?>
                                         <tr>
-
-                                            <td>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</td>
-                                            <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                                                Pariatur quaerat accusamus earum sint eaque sunt cupiditate deleniti
-                                                quisquam a iste?
-                                            </td>
-                                            <td>14/8/2022</td>
-                                            <td>Published</td>
+                                            <td><?php echo $post["id"]; ?></td>
+                                            <td><?php echo $post["title"]; ?></td>
+                                            <td><?php echo $post["description"]; ?></td>
+                                            <td><?php echo $post["date"]; ?></td>
+                                            <td><?php echo $post["status"] == 1 ? "Published" : "Draft"; ?></td>
                                             <td>
-                                                <a href="" class="btn-sm btn-warning">
+                                                <a href="addfaq.php?id=<?php echo $post["id"]; ?>"
+                                                    class="btn-sm btn-warning">
                                                     <i class="bi bi-pencil-square"></i>
                                                 </a>
-                                                <a href="" class="btn-sm btn-danger">
+                                                <a href="managefaq.php?id=<?php echo $post["id"]; ?>"
+                                                    class="btn-sm btn-danger">
                                                     <i class="bi bi-trash2-fill"></i>
                                                 </a>
 
                                             </td>
                                         </tr>
+                                        <?php
+}
+?>
                                     </tbody>
                                 </table>
 
@@ -78,3 +89,4 @@ include_once "include/sidebar.php";
     </section>
 
 </main><!-- End #main -->
+<?php include_once "include/footer.php";?>

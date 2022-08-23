@@ -4,6 +4,14 @@ $title = "Dashboard";
 include_once "include/header.php";
 include_once "include/sidebar.php";
 
+include "config/database.php";
+
+$data = new Databases;
+
+$total = $data->viewData("allfaqs", "", "", "");
+$published = $data->viewData("allfaqs", "", "status", "1");
+$draft = $data->viewData("allfaqs", "", "status", "2");
+
 ?>
 
 <main id="main" class="main">
@@ -37,7 +45,7 @@ include_once "include/sidebar.php";
                                         <i class="bi bi-journal-text"></i>
                                     </div>
                                     <div class="ps-3">
-                                        <h6>145</h6>
+                                        <h6><?php echo count($total) ?></h6>
                                     </div>
                                 </div>
                             </div>
@@ -58,7 +66,7 @@ include_once "include/sidebar.php";
                                         <i class="bi bi-journal-check"></i>
                                     </div>
                                     <div class="ps-3">
-                                        <h6>3,264</h6>
+                                        <h6><?php echo count($published) ?></h6>
                                     </div>
                                 </div>
                             </div>
@@ -78,7 +86,7 @@ include_once "include/sidebar.php";
                                         <i class="bi bi-journal-bookmark"></i>
                                     </div>
                                     <div class="ps-3">
-                                        <h6>1244</h6>
+                                        <h6><?php echo count($draft) ?></h6>
                                     </div>
                                 </div>
 
@@ -97,7 +105,7 @@ include_once "include/sidebar.php";
                                 <table id="datatable" class="table table-striped" style="width:100%">
                                     <thead>
                                         <tr>
-
+                                            <th scope="col">ID</th>
                                             <th scope="col">Title</th>
                                             <th scope="col">Description</th>
                                             <th scope="col">Date</th>
@@ -105,15 +113,20 @@ include_once "include/sidebar.php";
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <?php
+$post_data = $data->viewData("allfaqs", "", "", "");
+foreach ($post_data as $post) {
+    ?>
                                         <tr>
-                                            <td>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</td>
-                                            <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                                                Pariatur quaerat accusamus earum sint eaque sunt cupiditate deleniti
-                                                quisquam a iste?
-                                            </td>
-                                            <td>14/8/2022</td>
-                                            <td>Published</td>
+                                            <td><?php echo $post["id"]; ?></td>
+                                            <td><?php echo $post["title"]; ?></td>
+                                            <td><?php echo $post["description"]; ?></td>
+                                            <td><?php echo $post["date"]; ?></td>
+                                            <td><?php echo $post["status"] == 1 ? "Published" : "Draft"; ?></td>
                                         </tr>
+                                        <?php
+}
+?>
                                     </tbody>
                                 </table>
 

@@ -31,9 +31,9 @@ class Databases
     }
 
     //Select data from database
-    public function viewData($tbl_name, $col_name, $data_id)
+    public function viewData($tbl_name, $col_name, $col_id, $data_id)
     {
-        $data_id = !empty($data_id) ? " WHERE id = $data_id " : " ";
+        $data_id = !empty($data_id) ? " WHERE $col_id = $data_id " : " ";
         $col_name = !empty($col_name) ? $col_name : " * ";
         $sql_query = "SELECT $col_name FROM $tbl_name $data_id";
         $array = array();
