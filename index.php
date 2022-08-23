@@ -5,7 +5,11 @@
  -->
 
 <?php
-
+    /*
+    FAQs Backend
+    23 - 8 - 2022
+    Arafat Hossain Ar
+    */
 include "admin/config/database.php";
 
 $data = new Databases;
