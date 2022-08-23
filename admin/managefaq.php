@@ -8,6 +8,17 @@ include_once "include/sidebar.php";
 include "config/database.php";
 
 $data = new Databases;
+
+$success_message = '';
+if (isset($_GET["id"])) {
+
+    if ($data->deleteData("allfaqs", "id", $_GET["id"])) {
+        $success_message = '<p class="bg-success text-white p-2">' . 'Data Deleted Successfully!' . '</p>';
+    } else {
+        $success_message = '<p class="bg-danger text-white p-2">' . 'Failed!' . '</p>';
+    }
+
+}
 ?>
 
 <main id="main" class="main">
@@ -27,6 +38,11 @@ $data = new Databases;
 
             <!-- Left side columns -->
             <div class="col-lg-12">
+                <?php
+if (isset($success_message)) {
+    echo $success_message;
+}
+?>
                 <div class="row">
                     <!-- Recent Sales -->
                     <div class="col-12">
