@@ -5,8 +5,6 @@ $title = "Add FAQs";
 include_once "include/header.php";
 include_once "include/sidebar.php";
 
-include 'config/database.php';
-$data = new Databases;
 $success_message = '';
 
 if (isset($_POST["status"])) {

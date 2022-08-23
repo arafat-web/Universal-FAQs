@@ -5,24 +5,21 @@ $title = "Admin Profile";
 include_once "include/header.php";
 include_once "include/sidebar.php";
 
-include "config/database.php";
-$data = new Databases;
+// include "config/database.php";
+// $data = new Databases;
 
 $admin_details = $data->viewData("admin", "", "", "");
 // print_r($admin_details[1]);
-$fullname;
 $about;
 $company;
-$job;
 $country;
 $address;
 $phone;
 $email;
 foreach ($admin_details as $value) {
-    $fullname = $value["fullname"];
+
     $about = $value["about"];
     $company = $value["company"];
-    $job = $value["job"];
     $country = $value["country"];
     $address = $value["address"];
     $phone = $value["phone"];
@@ -50,7 +47,7 @@ foreach ($admin_details as $value) {
                 <div class="card">
                     <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
-                        <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
+                        <img src="images/<?php echo $img; ?>" alt="Profile" class="">
                         <h2><?php echo $fullname; ?></h2>
                         <h3><?php echo $job; ?></h3>
 
@@ -135,13 +132,14 @@ foreach ($admin_details as $value) {
                                         <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile
                                             Image</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <img src="assets/img/profile-img.jpg" alt="Profile">
+                                            <!-- <img src="assets/img/profile-img.jpg" alt="Profile">
                                             <div class="pt-2">
                                                 <a href="#" class="btn btn-primary btn-sm"
                                                     title="Upload new profile image"><i class="bi bi-upload"></i></a>
                                                 <a href="#" class="btn btn-danger btn-sm"
                                                     title="Remove my profile image"><i class="bi bi-trash"></i></a>
-                                            </div>
+                                            </div> -->
+                                            <input name="img" type="file" class="form-control" id="img">
                                         </div>
                                     </div>
 

@@ -4,10 +4,6 @@ $title = "Dashboard";
 include_once "include/header.php";
 include_once "include/sidebar.php";
 
-include "config/database.php";
-
-$data = new Databases;
-
 $total = $data->viewData("allfaqs", "", "", "");
 $published = $data->viewData("allfaqs", "", "status", "1");
 $draft = $data->viewData("allfaqs", "", "status", "2");
