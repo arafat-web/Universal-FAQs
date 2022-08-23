@@ -1,8 +1,18 @@
-<!-- 
+<!--
     FAQs Design
     13 - 8 - 2022
     Arafat Hossain Ar
  -->
+
+<?php
+
+include "admin/config/database.php";
+
+$data = new Databases;
+
+$post_data = $data->viewData("allfaqs", "", "status", "1");
+
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -22,51 +32,27 @@
 
         <h1 class="faq-heading">FAQ'S</h1>
         <section class="faq-container">
-            <div class="faq-one">
 
+            <?php
+
+foreach ($post_data as $post) {
+
+    ?>
+            <div class="faq">
                 <!-- faq question -->
-                <h1 class="faq-page">What is an FAQ Page?</h1>
+                <h1 class="faq-page"><?php echo $post["title"] ?></h1>
 
                 <!-- faq answer -->
                 <div class="faq-body">
-                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Velit saepe sequi, illum facere
-                        necessitatibus cum aliquam id illo omnis maxime, totam soluta voluptate amet ut sit ipsum
-                        aperiam.
-                        Perspiciatis, porro!</p>
+                    <p><?php echo $post["description"] ?></p>
                 </div>
             </div>
             <hr class="hr-line">
 
-            <div class="faq-two">
+            <?php
+}
+?>
 
-                <!-- faq question -->
-                <h1 class="faq-page">Why do you need an FAQ page?</h1>
-
-                <!-- faq answer -->
-
-                <div id="faq-body" class="faq-body">
-                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Velit saepe sequi, illum facere
-                        necessitatibus cum aliquam id illo omnis maxime, totam soluta voluptate amet ut sit ipsum
-                        aperiam.
-                        Perspiciatis, porro!</p>
-                </div>
-            </div>
-            <hr class="hr-line">
-
-
-            <div class="faq-three">
-
-                <!-- faq question -->
-                <h1 class="faq-page">Does it improves the user experience of a website?</h1>
-
-                <!-- faq answer -->
-                <div class="faq-body">
-                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Velit saepe sequi, illum facere
-                        necessitatibus cum aliquam id illo omnis maxime, totam soluta voluptate amet ut sit ipsum
-                        aperiam.
-                        Perspiciatis, porro!</p>
-                </div>
-            </div>
 
         </section>
     </main>
