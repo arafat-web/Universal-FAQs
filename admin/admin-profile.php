@@ -4,6 +4,31 @@ $page = "admin-profile";
 $title = "Admin Profile";
 include_once "include/header.php";
 include_once "include/sidebar.php";
+
+include "config/database.php";
+$data = new Databases;
+
+$admin_details = $data->viewData("admin", "", "", "");
+// print_r($admin_details[1]);
+$fullname;
+$about;
+$company;
+$job;
+$country;
+$address;
+$phone;
+$email;
+foreach ($admin_details as $value) {
+    $fullname = $value["fullname"];
+    $about = $value["about"];
+    $company = $value["company"];
+    $job = $value["job"];
+    $country = $value["country"];
+    $address = $value["address"];
+    $phone = $value["phone"];
+    $email = $value["email"];
+}
+
 ?>
 
 <main id="main" class="main">
@@ -26,8 +51,8 @@ include_once "include/sidebar.php";
                     <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
                         <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-                        <h2>Peter Roar</h2>
-                        <h3>CEO & Admin</h3>
+                        <h2><?php echo $fullname; ?></h2>
+                        <h3><?php echo $job; ?></h3>
 
                     </div>
                 </div>
@@ -61,47 +86,43 @@ include_once "include/sidebar.php";
 
                             <div class="tab-pane fade show active profile-overview" id="profile-overview">
                                 <h5 class="card-title">About</h5>
-                                <p class="small fst-italic">Sunt est soluta temporibus accusantium neque nam maiores
-                                    cumque
-                                    temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum
-                                    quae quisquam autem
-                                    eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.</p>
+                                <p class="small fst-italic"><?php echo $about; ?></p>
 
                                 <h5 class="card-title">Profile Details</h5>
 
                                 <div class="row">
                                     <div class="col-lg-3 col-md-4 label ">Full Name</div>
-                                    <div class="col-lg-9 col-md-8">Peter Roar</div>
+                                    <div class="col-lg-9 col-md-8"><?php echo $fullname; ?></div>
                                 </div>
 
                                 <div class="row">
                                     <div class="col-lg-3 col-md-4 label">Company</div>
-                                    <div class="col-lg-9 col-md-8">Lueilwitz, Wisoky and Leuschke</div>
+                                    <div class="col-lg-9 col-md-8"><?php echo $company; ?></div>
                                 </div>
 
                                 <div class="row">
                                     <div class="col-lg-3 col-md-4 label">Job</div>
-                                    <div class="col-lg-9 col-md-8">EO</div>
+                                    <div class="col-lg-9 col-md-8"><?php echo $job; ?></div>
                                 </div>
 
                                 <div class="row">
                                     <div class="col-lg-3 col-md-4 label">Country</div>
-                                    <div class="col-lg-9 col-md-8">USA</div>
+                                    <div class="col-lg-9 col-md-8"><?php echo $country; ?></div>
                                 </div>
 
                                 <div class="row">
                                     <div class="col-lg-3 col-md-4 label">Address</div>
-                                    <div class="col-lg-9 col-md-8">A108 Adam Street, New York, NY 535022</div>
+                                    <div class="col-lg-9 col-md-8"><?php echo $address; ?></div>
                                 </div>
 
                                 <div class="row">
                                     <div class="col-lg-3 col-md-4 label">Phone</div>
-                                    <div class="col-lg-9 col-md-8">(436) 486-3538 x29071</div>
+                                    <div class="col-lg-9 col-md-8"><?php echo $phone; ?></div>
                                 </div>
 
                                 <div class="row">
                                     <div class="col-lg-3 col-md-4 label">Email</div>
-                                    <div class="col-lg-9 col-md-8">k.anderson@example.com</div>
+                                    <div class="col-lg-9 col-md-8"><?php echo $email; ?></div>
                                 </div>
 
                             </div>
@@ -109,7 +130,7 @@ include_once "include/sidebar.php";
                             <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
 
                                 <!-- Profile Edit Form -->
-                                <form>
+                                <form method="post">
                                     <div class="row mb-3">
                                         <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile
                                             Image</label>
@@ -128,7 +149,7 @@ include_once "include/sidebar.php";
                                         <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Full Name</label>
                                         <div class="col-md-8 col-lg-9">
                                             <input name="fullName" type="text" class="form-control" id="fullName"
-                                                value="Kevin Anderson">
+                                                value="<?php echo $fullname; ?>">
                                         </div>
                                     </div>
 
@@ -136,7 +157,7 @@ include_once "include/sidebar.php";
                                         <label for="about" class="col-md-4 col-lg-3 col-form-label">About</label>
                                         <div class="col-md-8 col-lg-9">
                                             <textarea name="about" class="form-control" id="about"
-                                                style="height: 100px">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.</textarea>
+                                                style="height: 100px"><?php echo $about; ?></textarea>
                                         </div>
                                     </div>
 
@@ -144,7 +165,7 @@ include_once "include/sidebar.php";
                                         <label for="company" class="col-md-4 col-lg-3 col-form-label">Company</label>
                                         <div class="col-md-8 col-lg-9">
                                             <input name="company" type="text" class="form-control" id="company"
-                                                value="Lueilwitz, Wisoky and Leuschke">
+                                                value="<?php echo $company; ?>">
                                         </div>
                                     </div>
 
@@ -152,7 +173,7 @@ include_once "include/sidebar.php";
                                         <label for="Job" class="col-md-4 col-lg-3 col-form-label">Job</label>
                                         <div class="col-md-8 col-lg-9">
                                             <input name="job" type="text" class="form-control" id="Job"
-                                                value="Web Designer">
+                                                value="<?php echo $job; ?>">
                                         </div>
                                     </div>
 
@@ -160,7 +181,7 @@ include_once "include/sidebar.php";
                                         <label for="Country" class="col-md-4 col-lg-3 col-form-label">Country</label>
                                         <div class="col-md-8 col-lg-9">
                                             <input name="country" type="text" class="form-control" id="Country"
-                                                value="USA">
+                                                value="<?php echo $country; ?>">
                                         </div>
                                     </div>
 
@@ -168,7 +189,7 @@ include_once "include/sidebar.php";
                                         <label for="Address" class="col-md-4 col-lg-3 col-form-label">Address</label>
                                         <div class="col-md-8 col-lg-9">
                                             <input name="address" type="text" class="form-control" id="Address"
-                                                value="A108 Adam Street, New York, NY 535022">
+                                                value="<?php echo $address; ?>">
                                         </div>
                                     </div>
 
@@ -176,7 +197,7 @@ include_once "include/sidebar.php";
                                         <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Phone</label>
                                         <div class="col-md-8 col-lg-9">
                                             <input name="phone" type="text" class="form-control" id="Phone"
-                                                value="(436) 486-3538 x29071">
+                                                value="<?php echo $phone; ?>">
                                         </div>
                                     </div>
 
@@ -184,11 +205,12 @@ include_once "include/sidebar.php";
                                         <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
                                         <div class="col-md-8 col-lg-9">
                                             <input name="email" type="email" class="form-control" id="Email"
-                                                value="k.anderson@example.com">
+                                                value="<?php echo $email; ?>">
                                         </div>
                                     </div>
                                     <div class="text-center">
-                                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                                        <button type="submit" name="update" class="btn btn-primary">Save
+                                            Changes</button>
                                     </div>
                                 </form><!-- End Profile Edit Form -->
 
