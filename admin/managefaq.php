@@ -77,7 +77,7 @@ foreach ($post_data as $post) {
                                             <td><?php echo $post["date"]; ?></td>
                                             <td><?php echo $post["status"] == 1 ? "Published" : "Draft"; ?></td>
                                             <td>
-                                                <a href="addfaq.php?id=<?php echo $post["id"]; ?>"
+                                                <a href="updatefaq.php?id=<?php echo $post["id"]; ?>"
                                                     class="btn-sm btn-warning">
                                                     <i class="bi bi-pencil-square"></i>
                                                 </a>

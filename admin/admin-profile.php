@@ -1,7 +1,7 @@
 <?php
 
-$page = "users-profile";
-$title = "User Profile";
+$page = "admin-profile";
+$title = "Admin Profile";
 include_once "include/header.php";
 include_once "include/sidebar.php";
 ?>

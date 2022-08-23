@@ -1,7 +1,7 @@
 <?php
 
-$page = "addfaq";
-$title = "Add FAQs";
+$page = "updatefaq";
+$title = "Update FAQs";
 include_once "include/header.php";
 include_once "include/sidebar.php";
 
@@ -12,16 +12,14 @@ $success_message = '';
 if (isset($_POST["status"])) {
 
     if (!(empty($_POST['title']) || empty($_POST['description']))) {
-        $insert_data = array(
+        $update_data = array(
             'title' => mysqli_real_escape_string($data->connect, $_POST['title']),
             'description' => mysqli_real_escape_string($data->connect, $_POST['description']),
             'date' => mysqli_real_escape_string($data->connect, date("Y/m/d")),
             'status' => mysqli_real_escape_string($data->connect, $_POST['status']),
         );
-        if ($data->addData('allfaqs', $insert_data) && $_POST['status'] == 1) {
-            $success_message = '<p class="bg-success text-white p-2">' . 'FAQ Published Successfully' . '</p>';
-        } else if ($_POST['status'] == 0) {
-            $success_message = '<p class="bg-warning text-white p-2">' . 'FAQ Draft Successfully' . '</p>';
+        if ($data->updateData('allfaqs', $update_data, $_POST['id'])) {
+            $success_message = '<p class="bg-success text-white p-2">' . 'FAQ Updated Successfully' . '</p>';
         } else {
             $success_message = '<p class="bg-danger text-white p-2">' . 'Invalid Input' . '</p>';
         }
@@ -36,11 +34,11 @@ if (isset($_POST["status"])) {
 <main id="main" class="main">
 
     <div class="pagetitle">
-        <h1>Add FAQ</h1>
+        <h1>Update FAQ</h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="index.php">Home</a></li>
-                <li class="breadcrumb-item active">Add FAQ</li>
+                <li class="breadcrumb-item active">Update FAQ</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
@@ -63,20 +61,26 @@ if (isset($success_message)) {
                     <div class="card">
 
                         <div class="card-body">
-                            <h5 class="card-title">Add FAQ</h5>
+                            <h5 class="card-title">Update FAQ</h5>
 
                             <!-- Vertical Form -->
                             <form method="post" class="row g-3">
+                                <?php
+$post_data = $data->viewData("allfaqs", "", "id", $_GET['id']);
+foreach ($post_data as $post) {
+    ?>
                                 <div class="col-12">
+                                    <input type="hidden" name="id" value="<?php echo $_GET['id']; ?>">
                                     <label for="title" class="form-label text-muted">Title</label>
-                                    <input type="text" class="form-control" name="title"
-                                        placeholder="Lorem ipsum dolor sit amet consectetur adipisicing.">
+                                    <input type="text" value="<?php echo $post["title"]; ?>" class="form-control"
+                                        name="title" placeholder="Lorem ipsum dolor sit amet consectetur adipisicing.">
                                 </div>
                                 <div class="col-12">
                                     <label for="editor" class="form-label text-muted">Description</label>
                                     <textarea name="description" id="editor"
                                         placeholder="Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit, deleniti?"
-                                        class="form-control" style="height: 100px"></textarea>
+                                        class="form-control"
+                                        style="height: 100px"><?php echo $post["description"]; ?></textarea>
                                 </div>
                                 <div class="text-center">
                                     <button type="submit" value="1" name="status"
@@ -87,6 +91,9 @@ if (isset($success_message)) {
                                         Draft</button>
                                     <button type="reset" class="btn btn-secondary">Reset</button>
                                 </div>
+                                <?php
+}
+?>
                             </form><!-- Vertical Form -->
 
                         </div>

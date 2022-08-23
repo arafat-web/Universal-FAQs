@@ -24,7 +24,7 @@
             </a>
         </li><!-- End Buy Page Nav -->
         <li class="nav-item">
-            <a class="nav-link <?php echo $page == "users-profile" ? '' : 'collapsed'; ?>" href="users-profile.php">
+            <a class="nav-link <?php echo $page == "admin-profile" ? '' : 'collapsed'; ?>" href="admin-profile.php">
                 <i class="bi bi-person"></i>
                 <span>Profile</span>
             </a>
