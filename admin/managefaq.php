@@ -5,7 +5,6 @@ $title = "Manage FAQs";
 include_once "include/header.php";
 include_once "include/sidebar.php";
 
-
 $success_message = '';
 if (isset($_GET["id"])) {
 
@@ -70,7 +69,7 @@ foreach ($post_data as $post) {
                                         <tr>
                                             <td><?php echo $post["id"]; ?></td>
                                             <td><?php echo $post["title"]; ?></td>
-                                            <td><?php echo $post["description"]; ?></td>
+                                            <td><?php echo substr($post["description"], 0, 70) . "..."; ?></td>
                                             <td><?php echo $post["date"]; ?></td>
                                             <td><?php echo $post["status"] == 1 ? "Published" : "Draft"; ?></td>
                                             <td>

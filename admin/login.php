@@ -1,6 +1,34 @@
 <?php
+include "config/database.php";
+$session = new Databases;
+session_start();
 
+$error = "";
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // username and password sent from form
+
+    $myemail = mysqli_real_escape_string($session->connect, $_POST['email']);
+    $mypassword = mysqli_real_escape_string($session->connect, $_POST['password']);
+
+    $sql = "SELECT id, email FROM `admin` WHERE email = '$myemail' and password = '$mypassword'";
+    $result = mysqli_query($session->connect, $sql);
+    $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+
+    $count = mysqli_num_rows($result);
+
+    if ($count == 1) {
+        //  session_register("myusername");
+        $_SESSION['login_id'] = $row["id"];
+        $_SESSION['login_email'] = $myemail;
+        header("location: index.php");
+    } else {
+        $error = '<p class="text-white text-center bg-danger p-2">' . 'Your Email or Password is Invalid!' . '</p>';
+
+    }
+}
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -37,20 +65,18 @@
                             <div class="card mb-3">
                                 <div class="card-body">
                                     <div class="pt-4 pb-2">
+                                        <?php echo $error ?>
                                         <h5 class="card-title text-center pb-0 fs-4">Login to Your Account</h5>
-                                        <p class="text-center small">Enter your username & password to login</p>
+                                        <p class="text-center small">Enter your email & password to login</p>
                                     </div>
-                                    <form method="POST" class="row g-3 needs-validation" novalidate>
-                                        <div class="col-12"> <label for="username" class="form-label">Username</label>
-                                            <div class="input-group has-validation"><input type="text" name="username"
-                                                    class="form-control" id="username" required>
-                                                <div class="invalid-feedback">Please enter your username.</div>
+                                    <form method="post" class="row g-3">
+                                        <div class="col-12"> <label for="email" class="form-label">Email</label>
+                                            <div class="input-group has-validation"><input type="email" name="email"
+                                                    class="form-control" required>
                                             </div>
                                         </div>
                                         <div class="col-12"> <label for="password" class="form-label">Password</label>
-                                            <input type="password" name="password" class="form-control" id="password"
-                                                required>
-                                            <div class="invalid-feedback">Please enter your password!</div>
+                                            <input type="password" name="password" class="form-control" required>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-check"> <input class="form-check-input" type="checkbox"

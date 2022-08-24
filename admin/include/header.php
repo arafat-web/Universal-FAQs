@@ -1,7 +1,7 @@
 <?php
 
 include "./config/database.php";
-$data = new Databases;
+include "./config/session.php";
 
 $admin = $data->viewData("admin", "", "", "");
 
