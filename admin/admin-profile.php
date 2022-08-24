@@ -10,6 +10,8 @@ include_once "include/sidebar.php";
 
 $admin_details = $data->viewData("admin", "", "", "");
 // print_r($admin_details[1]);
+
+$id;
 $about;
 $company;
 $country;
@@ -18,6 +20,7 @@ $phone;
 $email;
 foreach ($admin_details as $value) {
 
+    $id = $value["id"];
     $about = $value["about"];
     $company = $value["company"];
     $country = $value["country"];
@@ -26,6 +29,31 @@ foreach ($admin_details as $value) {
     $email = $value["email"];
 }
 
+$success_message = '';
+
+if (isset($_POST["update"])) {
+    $filename = $_FILES["img"]["name"];
+    $tempname = $_FILES["img"]["tmp_name"];
+    $folder = "images/" . $filename;
+
+    $update_data = array(
+        'fullname' => mysqli_real_escape_string($data->connect, $_POST['fullname']),
+        'phone' => mysqli_real_escape_string($data->connect, $_POST['phone']),
+        'email' => mysqli_real_escape_string($data->connect, $_POST['email']),
+        'image' => mysqli_real_escape_string($data->connect, $filename),
+        'about' => mysqli_real_escape_string($data->connect, $_POST['about']),
+        'company' => mysqli_real_escape_string($data->connect, $_POST['company']),
+        'job' => mysqli_real_escape_string($data->connect, $_POST['job']),
+        'country' => mysqli_real_escape_string($data->connect, $_POST['country']),
+        'address' => mysqli_real_escape_string($data->connect, $_POST['address']),
+    );
+    if ($data->updateData('admin', $update_data, $_POST['id'])) {
+        move_uploaded_file($tempname, $folder);
+        $success_message = '<p class="bg-success text-white p-2">' . 'Your Profile  Updated Successfully! Please <a href="">Refresh</a> to see new contents.' . '</p>';
+    } else {
+        $success_message = '<p class="bg-danger text-white p-2">' . 'Invalid Input' . '</p>';
+    }
+}
 ?>
 
 <main id="main" class="main">
@@ -42,6 +70,11 @@ foreach ($admin_details as $value) {
 
     <section class="section profile">
         <div class="row">
+            <?php
+if (isset($success_message)) {
+    echo $success_message;
+}
+?>
             <div class="col-xl-4">
 
                 <div class="card">
@@ -127,8 +160,9 @@ foreach ($admin_details as $value) {
                             <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
 
                                 <!-- Profile Edit Form -->
-                                <form method="post">
+                                <form method="post" enctype="multipart/form-data">
                                     <div class="row mb-3">
+                                        <input type="hidden" value="<?php echo $id; ?>" name="id">
                                         <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile
                                             Image</label>
                                         <div class="col-md-8 col-lg-9">
@@ -139,14 +173,14 @@ foreach ($admin_details as $value) {
                                                 <a href="#" class="btn btn-danger btn-sm"
                                                     title="Remove my profile image"><i class="bi bi-trash"></i></a>
                                             </div> -->
-                                            <input name="img" type="file" class="form-control" id="img">
+                                            <input name="img" type="file" class="form-control">
                                         </div>
                                     </div>
 
                                     <div class="row mb-3">
                                         <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Full Name</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="fullName" type="text" class="form-control" id="fullName"
+                                            <input name="fullname" type="text" class="form-control"
                                                 value="<?php echo $fullname; ?>">
                                         </div>
                                     </div>
@@ -216,7 +250,7 @@ foreach ($admin_details as $value) {
 
                             <div class="tab-pane fade pt-3" id="profile-change-password">
                                 <!-- Change Password Form -->
-                                <form>
+                                <form method="post">
 
                                     <div class="row mb-3">
                                         <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current
