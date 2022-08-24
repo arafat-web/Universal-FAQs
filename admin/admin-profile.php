@@ -54,6 +54,34 @@ if (isset($_POST["update"])) {
         $success_message = '<p class="bg-danger text-white p-2">' . 'Invalid Input' . '</p>';
     }
 }
+if (isset($_POST["cngpsw"])) {
+    // Check current password
+
+    $currentPassword = $_POST["password"];
+    $newPassword = $_POST["newpassword"];
+    $reNewPassword = $_POST["renewpassword"];
+    $getCurrentPasword = $data->viewData("admin", "password", "id", $_POST['id']);
+
+    foreach ($getCurrentPasword as $value) {
+        if ($value["password"] == $currentPassword) {
+            if ($newPassword == $reNewPassword) {
+                $update_data = array(
+                    'password' => mysqli_real_escape_string($data->connect, $_POST['newpassword']),
+                );
+                if ($data->updateData('admin', $update_data, $_POST['id'])) {
+                    $success_message = '<p class="bg-success text-white p-2">' . 'Your Password Changed Successfully!' . '</p>';
+                } else {
+                    $success_message = '<p class="bg-danger text-white p-2">' . 'Invalid Input' . '</p>';
+                }
+            } else {
+                $success_message = '<p class="bg-danger text-white p-2">' . 'New Password Did not Matched' . '</p>';
+            }
+        } else {
+            $success_message = '<p class="bg-danger text-white p-2">' . 'Current Password Did not Matched' . '</p>';
+        }
+    }
+
+}
 ?>
 
 <main id="main" class="main">
@@ -251,7 +279,7 @@ if (isset($success_message)) {
                             <div class="tab-pane fade pt-3" id="profile-change-password">
                                 <!-- Change Password Form -->
                                 <form method="post">
-
+                                    <input type="hidden" value="<?php echo $id; ?>" name="id">
                                     <div class="row mb-3">
                                         <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current
                                             Password</label>
@@ -280,7 +308,8 @@ if (isset($success_message)) {
                                     </div>
 
                                     <div class="text-center">
-                                        <button type="submit" class="btn btn-primary">Change Password</button>
+                                        <button type="submit" name="cngpsw" class="btn btn-primary">Change
+                                            Password</button>
                                     </div>
                                 </form><!-- End Change Password Form -->
 
